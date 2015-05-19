@@ -37,7 +37,6 @@ while True:
 	bmp = BMP085.BMP085()
 	temper = bmp.read_temperature()
 	pressure = bmp.read_sealevel_pressure()
-	altitude = bmp.read_altitude()
 	roundedpressure = str((round(pressure/100, 1))).replace(".",",") # readable for google spredsheet
 	roundtemp = str(temper).replace(".",",")
 	
