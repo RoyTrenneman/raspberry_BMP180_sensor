@@ -26,7 +26,7 @@ labelpressure = 2
 
 while True:
 	
-	#Google 
+	#Google API (visit http://www.indjango.com/access-google-sheets-in-python-using-gspread/) 
 	json_key = json.load(open('Weather-feef9f3504ab.json'))
 	scope = ['https://spreadsheets.google.com/feeds']
 	credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
