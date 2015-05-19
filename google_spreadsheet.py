@@ -16,7 +16,7 @@ import gspread
 spreadsheet_name = 'weather'
 
 # How long to wait (in seconds) between measurements.
-freq = 6
+freq = 600 # 10 min
 
 from oauth2client.client import SignedJwtAssertionCredentials
 
