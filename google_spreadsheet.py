@@ -16,13 +16,9 @@ import gspread
 spreadsheet_name = 'weather'
 
 # How long to wait (in seconds) between measurements.
-freq = 600 # 10 min
-
+freq = 1800  # 30 min
 from oauth2client.client import SignedJwtAssertionCredentials
 
-labeltime = 2 #cell coordinate for google spreadsheet
-labeltemp = 2
-labelpressure = 2
 
 while True:
 	
@@ -31,7 +27,7 @@ while True:
 	scope = ['https://spreadsheets.google.com/feeds']
 	credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
 	gc = gspread.authorize(credentials)
-	worksheet = gc.open(spreadsheet_name ).sheet1
+	worksheet = gc.open(spreadsheet_name).sheet1
 	
 	#Sensor reading
 	bmp = BMP085.BMP085()
@@ -42,13 +38,13 @@ while True:
 	
 	#Update 
 	try:
+		val = int(worksheet.acell('D1').value) # dynamique label in case of interruption
 		maintenant = time.strftime("%d/%m/%Y %H:%M:%S")
-		worksheet.update_cell(labeltime, 1, maintenant) # Update using cell coordinates
-		worksheet.update_cell(labeltemp, 3, roundtemp) # Update using cell coordinates
-		worksheet.update_cell(labelpressure, 2, roundedpressure) # Update using cell coordinates
-		labeltemp = labeltemp + 1 
-		labeltime = labeltime + 1
-		labelpressure = labelpressure +1
+		worksheet.update_cell(val, 1, maintenant) # Update label using cell coordinates
+		worksheet.update_cell(val, 3, roundtemp) # Update label using cell coordinates
+		worksheet.update_cell(val, 2, roundedpressure) # Update label using cell coordinates
+		val = val + 1 
+		worksheet.update_acell('D1', val) # Update label 
 	except:
 		print 'error, logging in again'
 		time.sleep(freq)
